@@ -1,6 +1,6 @@
-Europea | $247.062,50
-Clásica | $225.012,50
-Guatambú | $237.037,50
-Cedro | $237.037,50
-Cedro Rústico | $153.247,50
-Cedro Eco | $108.045,00
+Europea | $264.356,88
+Clásica | $240.763,38
+Guatambú | $253.630,13
+Cedro | $253.630,13
+Cedro Rústico | $163.974,83
+Cedro Eco | $115.608,15
