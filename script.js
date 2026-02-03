@@ -143,10 +143,11 @@ function displayTable(data, container, tabName) {
     `;
     
     if (isPuertasPlaca) {
-        // Para puertas placa: solo Descripción y Precio
+        // Para puertas placa: Descripción, Precio, Detalle
         tableHTML += `
                     <th>Descripción</th>
                     <th>Precio</th>
+                    <th>Detalle</th>
         `;
     } else if (hasAnchoAlto) {
         // Para tablas con ancho/alto
@@ -157,12 +158,13 @@ function displayTable(data, container, tabName) {
         if (hasModelo) {
             tableHTML += `<th>Modelo</th>`;
         }
-        tableHTML += `<th>Precio</th>`;
+        tableHTML += `<th>Precio</th><th>Detalle</th>`;
     } else {
-        // Para tablas simples: Nombre y Precio
+        // Para tablas simples: Nombre, Precio, Detalle
         tableHTML += `
                     <th>Nombre</th>
                     <th>Precio</th>
+                    <th>Detalle</th>
         `;
     }
     
@@ -177,11 +179,13 @@ function displayTable(data, container, tabName) {
             <tr class="product-row" data-product-index="${index}" data-product-info='${JSON.stringify(item).replace(/'/g, "&#39;")}'>
         `;
         
+        const detalle = item.descripcion || '';
         if (isPuertasPlaca) {
-            // Para puertas placa: solo Descripción y Precio
+            // Para puertas placa: Descripción, Precio, Detalle
             tableHTML += `
                 <td><strong>${item.nombre}</strong></td>
                 <td class="price">${item.precio}</td>
+                <td class="detalle-column">${detalle}</td>
             `;
         } else if (hasAnchoAlto) {
             // Para tablas con ancho/alto
@@ -192,12 +196,13 @@ function displayTable(data, container, tabName) {
             if (hasModelo) {
                 tableHTML += `<td>${item.modelo}</td>`;
             }
-            tableHTML += `<td class="price">${item.precio}</td>`;
+            tableHTML += `<td class="price">${item.precio}</td><td class="detalle-column">${detalle}</td>`;
         } else {
-            // Para tablas simples: Nombre y Precio
+            // Para tablas simples: Nombre, Precio, Detalle
             tableHTML += `
                 <td><strong>${item.nombre}</strong></td>
                 <td class="price">${item.precio}</td>
+                <td class="detalle-column">${detalle}</td>
             `;
         }
         
@@ -227,6 +232,60 @@ function showEmptyState(container, message) {
 // Variables globales para almacenar datos
 let allData = {};
 
+// Buscar por medida, precio o abertura (descripción/modelo/nombre)
+function getSearchFilteredData(data, term) {
+    const t = term.trim().toLowerCase().replace(/,/g, '.');
+    if (!t) return data;
+    return data.filter(function (item) {
+        var ancho = (item.ancho || '').replace(/,/g, '.').toLowerCase();
+        var alto = (item.alto || '').replace(/,/g, '.').toLowerCase();
+        var precio = (item.precio || '').toLowerCase();
+        var desc = (item.descripcion || '').toLowerCase();
+        var nombre = (item.nombre || '').toLowerCase();
+        var modelo = (item.modelo || '').toLowerCase();
+        var searchable = [ancho, alto, precio, desc, nombre, modelo].join(' ');
+        return searchable.indexOf(t) !== -1;
+    });
+}
+
+// Datos actuales según pestaña y filtro activo
+function getCurrentBaseData() {
+    var activeTab = document.querySelector('.tab-pane.active');
+    if (!activeTab) return [];
+    var tabId = activeTab.id;
+    if (tabId === 'especiales') return [];
+    var data = allData[tabId] || [];
+    var activeFilterButton = document.querySelector('#' + tabId + ' .filter-button.active');
+    if (!activeFilterButton) return [];
+    var filterValue = activeFilterButton.getAttribute('data-filter');
+    return data.filter(function (item) { return item.descripcion === filterValue; });
+}
+
+// Aplicar búsqueda y actualizar lista
+function applySearch() {
+    var activeTab = document.querySelector('.tab-pane.active');
+    if (!activeTab) return;
+    var tabId = activeTab.id;
+    var container = document.querySelector('#' + tabId + ' .table-container');
+    if (!container) return;
+    var searchInput = document.getElementById('search-input');
+    var term = (searchInput && searchInput.value.trim()) || '';
+    var base = getCurrentBaseData();
+    var data = base;
+    if (term) data = getSearchFilteredData(base, term);
+
+    var hint = document.getElementById('search-hint');
+    if (hint) {
+        if (term && data.length === 0 && base.length > 0) hint.textContent = 'Sin resultados para "' + term + '"';
+        else if (term && data.length > 0) hint.textContent = data.length + ' resultado(s)';
+        else hint.textContent = '';
+    }
+
+    if (base.length === 0) showEmptyState(container, 'Selecciona un filtro para ver los productos');
+    else if (data.length === 0) container.innerHTML = '<div class="state state--empty"><h3>Sin resultados</h3><p>No hay coincidencias para "<strong>' + term.replace(/</g, '&lt;') + '</strong>".</p></div>';
+    else displayTable(data, container, tabId);
+}
+
 // Función para aplicar filtros
 function applyFilter(filterValue) {
     const activeTab = document.querySelector('.tab-pane.active').id;
@@ -249,11 +308,12 @@ function applyFilter(filterValue) {
         let filteredData = allData[activeTab] || [];
         filteredData = filteredData.filter(item => item.descripcion === filterValue);
         
-        // Mostrar datos filtrados
-        displayTable(filteredData, container, activeTab);
+        // Mostrar datos filtrados y aplicar búsqueda si hay término
+        applySearch();
     } else {
         // Si estaba activo, deseleccionar y ocultar tabla
         showEmptyState(container, 'Selecciona un filtro para ver los productos');
+        if (document.getElementById('search-hint')) document.getElementById('search-hint').textContent = '';
     }
 }
 
@@ -278,6 +338,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Cargar datos iniciales de la primera pestaña
     loadData('ventanas');
+
+    // Buscador: por medida, precio o abertura
+    var searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', applySearch);
+        searchInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') { searchInput.value = ''; searchInput.blur(); applySearch(); }
+        });
+    }
 });
 
 
@@ -453,9 +522,10 @@ async function loadData(tabName) {
             // No mostrar datos si no hay filtro seleccionado
             showEmptyState(container, 'Selecciona un filtro para ver los productos');
         }
-        
-        // Ocultar loading
+
+        // Ocultar loading y reaplicar búsqueda si hay término
         loading.style.display = 'none';
+        applySearch();
         
     } catch (error) {
         console.error('Error:', error);

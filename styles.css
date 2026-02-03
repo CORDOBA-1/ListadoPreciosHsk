@@ -4,27 +4,42 @@
     box-sizing: border-box;
 }
 
+:root {
+    --brand: #c41e3a;
+    --brand-soft: rgba(196, 30, 58, 0.12);
+    --accent: #d4a84b;
+    --bg: #1a1d24;
+    --surface: #252932;
+    --card: #ffffff;
+    --text: #1a1d24;
+    --muted: #5c6370;
+    --border: rgba(0,0,0,0.08);
+    --radius: 14px;
+    --shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background: linear-gradient(135deg, #000000 0%, #333333 100%);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.55;
+    color: var(--text);
+    background: linear-gradient(160deg, #1a1d24 0%, #0f1116 100%);
     min-height: 100vh;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 24px 20px 32px;
 }
 
 .company-header {
-    background: #f8f9fa;
-    border-radius: 15px;
-    padding: 30px;
-    margin-bottom: 40px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    background: linear-gradient(180deg, #fff 0%, #f6f7f9 100%);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
     text-align: center;
+    border: 1px solid rgba(0,0,0,0.06);
 }
 
 .logo-section {
@@ -73,96 +88,136 @@ body {
 }
 
 .company-name {
-    font-size: 3.5rem;
-    font-weight: bold;
-    color: #ff0000;
-    margin: 0 0 5px 0;
-    font-family: 'Times New Roman', serif;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: var(--brand);
+    margin: 0 0 6px 0;
+    font-family: Georgia, 'Times New Roman', serif;
     text-align: center;
     width: 100%;
+    letter-spacing: -0.02em;
 }
 
 .company-description {
-    font-size: 1rem;
-    color: #495057;
+    font-size: 0.95rem;
+    color: var(--muted);
     margin: 0;
     font-weight: 500;
 }
 
 .location-info {
-    border-top: 2px solid #dee2e6;
-    border-bottom: 2px solid #dee2e6;
-    padding: 15px 0;
-    margin: 20px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    margin: 16px 0;
 }
 
 .location-info p {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #000;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
     margin: 0;
 }
 
 .document-info {
-    margin-top: 20px;
+    margin-top: 14px;
 }
 
 .document-info h2 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #000;
-    margin: 0 0 15px 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 10px 0;
 }
 
 .document-info p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin: 4px 0;
+}
+
+/* Buscador */
+.search-bar-wrap {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+}
+
+.search-input {
+    flex: 1;
+    min-width: 200px;
+    max-width: 360px;
+    padding: 12px 16px;
     font-size: 1rem;
-    font-weight: bold;
-    color: #000;
-    margin: 5px 0;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.search-input::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+.search-input:focus {
+    border-color: var(--accent);
+    background: rgba(255,255,255,0.14);
+}
+
+.search-hint {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
 }
 
 .tabs {
     display: flex;
     justify-content: center;
-    margin-bottom: 30px;
-    gap: 10px;
+    margin-bottom: 24px;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
 .tab-button {
-    background: rgba(255, 193, 7, 0.2);
-    border: 2px solid #FFC107;
-    color: #FFC107;
-    padding: 12px 24px;
-    border-radius: 25px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.92);
+    padding: 10px 20px;
+    border-radius: 999px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
 }
 
 .tab-button:hover {
-    background: rgba(255, 193, 7, 0.3);
-    transform: translateY(-2px);
-    color: #000;
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.3);
 }
 
 .tab-button.active {
-    background: #FFC107;
-    border-color: #FFC107;
-    color: #000;
-    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(196, 30, 58, 0.35);
 }
 
-
-
 .tab-content {
-    background: white;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    backdrop-filter: blur(10px);
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(0,0,0,0.06);
 }
 
 .tab-pane {
@@ -187,98 +242,128 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-    background: white;
+    margin-top: 16px;
+    background: var(--card);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    border: 1px solid var(--border);
 }
 
 th, td {
-    padding: 15px;
+    padding: 14px 16px;
     text-align: left;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border);
 }
 
 th {
-    background: linear-gradient(135deg, #ff0000 0%, #ff2929 100%);
-    color: white;
+    background: var(--surface);
+    color: rgba(255,255,255,0.95);
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
 }
 
 tr:hover {
-    background-color: #f8f9fa;
-    transform: scale(1.01);
-    transition: all 0.2s ease;
+    background-color: var(--brand-soft);
 }
 
 .price {
-    font-weight: bold;
-    color: #ff0000;
-    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--brand);
+    font-size: 1.05rem;
 }
 
 .description {
-    color: #666;
+    color: var(--muted);
     font-size: 0.9rem;
 }
 
-/* Estilos para columnas de ancho y alto */
 .ancho-column, .alto-column {
     width: 80px;
     text-align: center;
-    font-weight: bold;
-    color: #495057;
+    font-weight: 600;
+    color: var(--muted);
 }
 
 .ancho-column {
-    background-color: #f8f9fa;
+    background-color: rgba(0,0,0,0.02);
 }
 
 .alto-column {
-    background-color: #e9ecef;
+    background-color: rgba(0,0,0,0.04);
 }
 
-/* Estilos para botones de filtro */
+.detalle-column {
+    font-size: 0.88rem;
+    color: var(--muted);
+    max-width: 280px;
+}
+
+/* Estados vacío / sin resultados */
+.state, .state--empty {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--muted);
+    border-radius: var(--radius);
+    border: 1px dashed var(--border);
+    background: rgba(0,0,0,0.02);
+}
+
+.state h3, .state--empty h3 {
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+.state p, .state--empty p {
+    font-size: 0.95rem;
+}
+
 .filters {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
-    gap: 10px;
+    margin-bottom: 18px;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
 .filter-button {
-    background: rgba(220, 53, 69, 0.1);
-    border: 2px solid #ff0000;
-    color: #ff0000;
+    background: var(--brand-soft);
+    border: 1px solid rgba(196, 30, 58, 0.35);
+    color: var(--brand);
     padding: 8px 16px;
-    border-radius: 20px;
+    border-radius: 999px;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .filter-button:hover {
-    background: rgba(220, 53, 69, 0.2);
-    transform: translateY(-1px);
-    color: #000000;
+    background: rgba(196, 30, 58, 0.18);
+    border-color: var(--brand);
 }
 
 .filter-button.active {
-    background: #ff0000;
-    border-color: #ff0000;
+    background: var(--brand);
+    border-color: var(--brand);
     color: #fff;
-    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+    box-shadow: 0 2px 10px rgba(196, 30, 58, 0.25);
 }
 
 footer {
     text-align: center;
-    margin-top: 40px;
-    color: #FFC107;
-    opacity: 0.9;
+    margin-top: 32px;
+    color: rgba(255,255,255,0.65);
+    font-size: 0.9rem;
+}
+
+.especiales-contenido {
+    padding: 28px;
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--brand);
+    font-weight: 600;
 }
 
 /* Botón flotante de WhatsApp */
@@ -325,6 +410,12 @@ footer {
     .container {
         padding: 10px;
     }
+
+    /* Ocultar columna Detalle en móvil */
+    table th:last-child,
+    table td.detalle-column {
+        display: none;
+    }
     
     .company-header {
         padding: 20px;
@@ -356,8 +447,17 @@ footer {
     }
     
     .company-name {
-        font-size: 4.8rem;
+        font-size: 2rem;
         text-align: center;
+    }
+
+    .search-bar-wrap {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-input {
+        max-width: none;
     }
     
     .company-description {
@@ -589,7 +689,7 @@ footer {
 }
 
 .modal-info h3 {
-    color: #ff0000;
+    color: var(--brand);
     margin: 0 0 15px 0;
     font-size: 1.8rem;
     text-align: center;

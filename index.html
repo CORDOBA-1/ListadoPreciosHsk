@@ -31,6 +31,12 @@
         </header>
 
         <main>
+            <div class="search-bar-wrap">
+                <label for="search-input" class="search-label">Buscar</label>
+                <input type="text" id="search-input" class="search-input" placeholder="Por medida, precio o abertura..." autocomplete="off" aria-label="Buscar por medida, precio o tipo de abertura">
+                <span id="search-hint" class="search-hint" aria-live="polite"></span>
+            </div>
+
             <div class="tabs">
                 <button class="tab-button active" data-tab="ventanas">Ventanas</button>
                 <button class="tab-button" data-tab="mosquiteros">Mosquiteros</button>
@@ -106,7 +112,7 @@
                 </div>
 
                 <div id="especiales" class="tab-pane">
-                    <div id="especiales-contenido" class="especiales-contenido" style="padding: 30px; text-align: center; font-size: 1.2rem; color: #DC3545;">
+                    <div id="especiales-contenido" class="especiales-contenido">
                         <!-- Aquí se mostrará el texto de especiales.txt -->
                         <span class="loading">Cargando ofertas especiales...</span>
                     </div>
