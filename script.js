@@ -248,6 +248,9 @@ function getSearchFilteredData(data, term) {
     });
 }
 
+// Pestañas con una sola tabla (sin botón de filtro)
+var tabsSinFiltro = ['mosquiteros', 'rejas', 'aireadores', 'puertas-placa'];
+
 // Datos actuales según pestaña y filtro activo
 function getCurrentBaseData() {
     var activeTab = document.querySelector('.tab-pane.active');
@@ -255,6 +258,8 @@ function getCurrentBaseData() {
     var tabId = activeTab.id;
     if (tabId === 'especiales') return [];
     var data = allData[tabId] || [];
+    // En pestañas con una sola tabla, devolver todos los datos
+    if (tabsSinFiltro.indexOf(tabId) !== -1) return data;
     var activeFilterButton = document.querySelector('#' + tabId + ' .filter-button.active');
     if (!activeFilterButton) return [];
     var filterValue = activeFilterButton.getAttribute('data-filter');
@@ -512,14 +517,16 @@ async function loadData(tabName) {
         // Guardar todos los datos para filtros
         allData[tabName] = data;
         
-        // Verificar si hay un filtro activo y aplicarlo
+        // Pestañas con una sola tabla: mostrar datos directamente
+        const esTabSinFiltro = ['mosquiteros', 'rejas', 'aireadores', 'puertas-placa'].indexOf(tabName) !== -1;
         const activeFilterButton = document.querySelector(`#${tabName} .filter-button.active`);
-        if (activeFilterButton) {
+        if (esTabSinFiltro) {
+            displayTable(data, container, tabName);
+        } else if (activeFilterButton) {
             const filterValue = activeFilterButton.getAttribute('data-filter');
             const filteredData = data.filter(item => item.descripcion === filterValue);
             displayTable(filteredData, container, tabName);
         } else {
-            // No mostrar datos si no hay filtro seleccionado
             showEmptyState(container, 'Selecciona un filtro para ver los productos');
         }
 
