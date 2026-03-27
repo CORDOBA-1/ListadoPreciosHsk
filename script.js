@@ -591,6 +591,15 @@ function closeModal() {
 
 function generateProductImage(productInfo) {
     console.log('ProductInfo:', productInfo); // Debug
+
+    function normalizeText(s) {
+        return (s || '')
+            .toString()
+            .trim()
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, ''); // quitar acentos
+    }
     
     // Verificar si es un producto de ventanas
     if (productInfo.descripcion && productInfo.descripcion.toLowerCase().includes('ventana')) {
@@ -602,6 +611,17 @@ function generateProductImage(productInfo) {
     if (productInfo.descripcion && productInfo.descripcion.toLowerCase().includes('aireadores')) {
         console.log('Detectado aireador, usando imagen de aireador');
         return 'Imagenes/aireador.jpg';
+    }
+
+    // Puertas placa: imagen según el nombre
+    if (productInfo.descripcion === 'Puertas placa') {
+        var nombreNorm = normalizeText(productInfo.nombre);
+        if (nombreNorm === 'europea') return 'Imagenes/EUROPEA.jpg';
+        if (nombreNorm === 'clasica') return 'Imagenes/CLASICA.png';
+        if (nombreNorm === 'guatambu') return 'Imagenes/guatambu.jpg';
+        if (nombreNorm === 'cedro') return 'Imagenes/cedro.jpg';
+        if (nombreNorm === 'cedro rustico') return 'Imagenes/CedroRustico.png';
+        // Cedro Eco: sin imagen por el momento -> placeholder
     }
     
     console.log('No se detectó tipo específico, usando placeholder');
