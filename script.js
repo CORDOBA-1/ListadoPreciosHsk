@@ -619,6 +619,7 @@ function generateProductImage(productInfo) {
         if (nombreNorm === 'europea') return 'Imagenes/EUROPEA.jpg';
         if (nombreNorm === 'clasica') return 'Imagenes/CLASICA.png';
         if (nombreNorm === 'guatambu') return 'Imagenes/guatambu.jpg';
+        if (nombreNorm === 'cedro premium') return 'Imagenes/CedroPremium.png';
         if (nombreNorm === 'cedro') return 'Imagenes/cedro.jpg';
         if (nombreNorm === 'cedro rustico') return 'Imagenes/CedroRustico.png';
         // Cedro Eco: sin imagen por el momento -> placeholder
